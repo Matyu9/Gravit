@@ -20,6 +20,8 @@ def main(FPS):
     fps_lim = pygame.time.Clock()
     color = rcolor()
     obj1 = pygame.draw.circle(spacetime, color, (320, 240), 50)
+    
+    fond = pygame.image.load("background.jpg").convert()
 
     game_continue = True
     while game_continue:
@@ -28,8 +30,7 @@ def main(FPS):
                 game_continue = False
 
         obj1.move_ip(3, 0)
-        # mettre un fond
-        fond = pygame.image.load("background.jpg").convert()
+        spacetime.blit(fond, (0, 0))
 
         obj1 = pygame.draw.circle(spacetime, color, (obj1.x+50, obj1.y+50), 50)
 
