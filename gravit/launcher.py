@@ -26,7 +26,7 @@ class MenuBar(tk.Menu):
         self.add_cascade(label="Help", menu=self.help_menu)
 
     def soon(self):
-        print("Hello !")
+        tkmsb.showwarning("Sorry...", "This feature will coming soon ! :(", parent=self.master)
 
     def about(self):
         tkmsb.showinfo("About Gravit", "Gravit v0.1\nGravit is a simulator based on the Newton's gravity.")
@@ -37,6 +37,9 @@ class Launcher(tk.Tk):
 
         self.menubar = MenuBar(self)
         self.config(menu=self.menubar)
+        print("yo")
+        print(self.menubar.master)
+        print(self)
 
 l = Launcher()
 
