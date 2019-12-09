@@ -1,52 +1,76 @@
 #coding: utf-8
 #!/usr/bin/env python3
 
-from random import randint as r
-
 import pygame
 from pygame.locals import *
 
-def rcolor():
-    return r(0, 255), r(0, 255), r(0, 255)
+from random import randint as r
+from threading import Thread
 
-def gen(gravit):
-    pass
+class Simulation(Thread):
 
-def main(FPS=60, win_size=(640, 480)):
-    pygame.init()
+    def do_play(self):
+        self.play = True
+        self.stop = False
 
-    spacetime = pygame.display.set_mode(win_size)
+    def do_pause(self):
+        self.play = False
 
-    fps_lim = pygame.time.Clock()
-    pygame.key.set_repeat(400, 30)
+    def do_stop(self):
+        self.play = False
+        self.stop = True
 
-    color = rcolor()
-    obj1 = pygame.draw.circle(spacetime, color, (320, 240), 50)
+    def rcolor(self):
+        return r(0, 255), r(0, 255), r(0, 255)
 
-    fond = pygame.Surface(win_size).convert()
+    def gen(self, gravit):
+        pass
 
-    game_continue = True
-    while game_continue:
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                game_continue = False
+    def __init__(self, FPS=60, win_size=(640, 480)):
+        self.FPS = FPS
+        self.win_size = win_size
 
-            if event.type == KEYDOWN:
-                if event.key == K_RIGHT:
-                    obj1.move_ip(2, 0)
-                if event.key == K_LEFT:
-                    obj1.move_ip(-2, 0)
-                if event.key == K_DOWN:
-                    obj1.move_ip(0 ,2)
-                if event.key == K_UP:
-                    obj1.move_ip(0, -2)
+    def run(self):
 
-        spacetime.blit(fond, (0, 0))
+        pygame.init()
 
-        obj1 = pygame.draw.circle(spacetime, color, obj1.center, 50)
+        self.spacetime = pygame.display.set_mode(self.win_size)
 
-        pygame.display.flip()
-        fps_lim.tick(FPS)
+        self.fps_limiter = pygame.time.Clock()
+        pygame.key.set_repeat(400, 30)
 
-main(60)
-exit(0)
+        self.obj1_color = self.rcolor()
+        self.obj1 = pygame.draw.circle(self.spacetime, self.obj1_color, (320, 240), 50)
+
+        self.fond = pygame.Surface(self.win_size).convert()
+        self.do_play()
+
+        while not self.do_stop:
+            print("avant")
+            while self.do_play:
+                for event in pygame.event.get():
+
+                    if event.type == QUIT:
+                        self.stop()
+
+                    if event.type == KEYDOWN:
+
+                        if event.key == K_RIGHT:
+                            self.obj1.move_ip(2, 0)
+
+                        if event.key == K_LEFT:
+                            self.obj1.move_ip(-2, 0)
+
+                        if event.key == K_DOWN:
+                            self.obj1.move_ip(0 ,2)
+
+                        if event.key == K_UP:
+                            self.obj1.move_ip(0, -2)
+
+            self.spacetime.blit(self.fond, (0, 0))
+
+            self.obj1 = pygame.draw.circle(spacetime, color, obj1.center, 50)
+
+            pygame.display.flip()
+
+            self.fps_limiter.tick(self.FPS)
