@@ -27,6 +27,8 @@ class Simulation(Thread):
         pass
 
     def __init__(self, FPS=60, win_size=(640, 480)):
+        super().__init__()
+
         self.FPS = FPS
         self.win_size = win_size
 
@@ -45,13 +47,13 @@ class Simulation(Thread):
         self.fond = pygame.Surface(self.win_size).convert()
         self.do_play()
 
-        while not self.do_stop:
+        while not self.stop:
             print("avant")
-            while self.do_play:
+            while self.play:
                 for event in pygame.event.get():
 
                     if event.type == QUIT:
-                        self.stop()
+                        self.do_stop()
 
                     if event.type == KEYDOWN:
 
@@ -69,8 +71,8 @@ class Simulation(Thread):
 
             self.spacetime.blit(self.fond, (0, 0))
 
-            self.obj1 = pygame.draw.circle(spacetime, color, obj1.center, 50)
+            self.obj1 = pygame.draw.circle(self.spacetime, self.obj1_color, self.obj1.center, 50)
 
-            pygame.display.flip()
+            pygame.display.update(self.obj1)
 
             self.fps_limiter.tick(self.FPS)
