@@ -1,8 +1,8 @@
 import tkinter as tk
 import tkinter.messagebox as tkmsb
 import webbrowser as wb
-from menubar import MenuBar
-from bodyframe import BodyFrame
+from .menubar import MenuBar
+from .bodyframe import BodyFrame
 
 class Launcher(tk.Tk):
     #show an "coming soon" window'
