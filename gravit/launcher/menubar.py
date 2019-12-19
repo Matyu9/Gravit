@@ -1,3 +1,5 @@
+import tkinter as tk
+
 class MenuBar(tk.Menu):
     def __init__(self, root):
     	#init of the super-class
