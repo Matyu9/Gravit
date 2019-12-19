@@ -1,17 +1,18 @@
 import tkinter as tk
-import tkinter.messagebox as tkmsb
 import webbrowser as wb
+
 from .menubar import MenuBar
 from .bodyframe import BodyFrame
 
 class Launcher(tk.Tk):
     #show an "coming soon" window'
     def soon(self):
-        tkmsb.showwarning("Sorry...", "This feature will coming soon ! :(", parent=self.master)
+        #tk.messagebox.showwarning("Sorry...", "This feature will coming soon ! :(", parent=self.master)
+        pass
 
     def askplay(self):
-    	if tkmsb.askyesno("Start Simulation", "Do you want to start the Gravit simulation ?"):
-    	    pass
+    	#if tk.messagebox.askyesno("Start Simulation", "Do you want to start the Gravit simulation ?"):
+        self.simulation.start()
 
     def ghpage():
     	wb.new("https://github.com/anat3000/Gravit")
@@ -31,3 +32,4 @@ class Launcher(tk.Tk):
         # play button
         self.play_button = tk.Button(self, text="Start the simulation", height=5, command=self.askplay)
         self.play_button.pack(side="bottom", fill="x")
+
