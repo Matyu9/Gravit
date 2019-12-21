@@ -1,7 +1,8 @@
 # Gravit
 ### Actully a gravity sandbox. Please enjoy this :)
 
-This project is in dev ! Work in progre
+This project is in dev !
+
 Lastest version : v0.1 (beta)
 
 ## TODO List Gravit Project :
