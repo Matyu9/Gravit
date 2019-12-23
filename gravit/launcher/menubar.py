@@ -1,4 +1,5 @@
 import tkinter as tk
+import tkinter.messagebox as tkmsb
 
 class MenuBar(tk.Menu):
     def __init__(self, root):
@@ -14,7 +15,7 @@ class MenuBar(tk.Menu):
         self.file_menu.add_command(label="Save simulation", command=self.master.soon)
         self.file_menu.add_command(label="Save as...", command=self.master.soon)
         self.file_menu.add_separator()
-        self.file_menu.add_command(label="Quit", command=self.master.soon)
+        self.file_menu.add_command(label="Quit", command=self.master.destroy)
 
         self.add_cascade(label="Fichier", menu=self.file_menu)
 
