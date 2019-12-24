@@ -68,10 +68,10 @@ class Simulation(Thread):
                         if event.key == K_UP:
                             self.obj1.move_ip(0, -2)
 
-            self.spacetime.blit(self.fond, (0, 0))
+                self.spacetime.blit(self.fond, (0, 0))
 
-            self.obj1 = pygame.draw.circle(self.spacetime, self.obj1_color, self.obj1.center, 50)
+                self.obj1 = pygame.draw.circle(self.spacetime, self.obj1_color, self.obj1.center, 50)
 
-            pygame.display.update(self.obj1)
+                pygame.display.update(self.obj1)
 
-            self.fps_limiter.tick(self.FPS)
+                self.fps_limiter.tick(self.FPS)
