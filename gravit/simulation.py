@@ -48,7 +48,6 @@ class Simulation(Thread):
         self.do_play()
 
         while not self.stop:
-            print("avant")
             while self.play:
                 for event in pygame.event.get():
 
