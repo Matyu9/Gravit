@@ -1,14 +1,12 @@
 import tkinter as tk
 import webbrowser as wb
 
-from .menubar import MenuBar
-from .bodyframe import BodyFrame
+from gravit.launcher.menubar import MenuBar
+from gravit.launcher.bodyframe import BodyFrame
 
 class Launcher(tk.Tk):
-    #show an "coming soon" window'
     def soon(self):
-        #tk.messagebox.showwarning("Sorry...", "This feature will coming soon ! :(", parent=self.master)
-        pass
+        tk.messagebox.showwarning("Sorry...", "This feature will coming soon ! :(", parent=self.master)
 
     def askplay(self):
     	#if tk.messagebox.askyesno("Start Simulation", "Do you want to start the Gravit simulation ?"):
