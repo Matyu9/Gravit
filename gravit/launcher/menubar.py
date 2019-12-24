@@ -1,5 +1,4 @@
 import tkinter as tk
-import tkinter.messagebox as tkmsb
 
 class MenuBar(tk.Menu):
     def __init__(self, root):
@@ -7,7 +6,7 @@ class MenuBar(tk.Menu):
         super().__init__(root)
 
 
-		## File Menu
+	## File Menu
         self.file_menu = tk.Menu(self, tearoff=0)
 
         self.file_menu.add_command(label="New simulation", command=self.master.soon)
@@ -30,11 +29,7 @@ class MenuBar(tk.Menu):
 
         self.add_cascade(label="Body", menu=self.body_menu)
 
-        self.add_command(label="|")
-
         self.add_command(label="Advanced Options", command=self.master.soon)
-
-        self.add_command(label="|")
 
         self.help_menu = tk.Menu(self, tearoff=0)
 
@@ -42,4 +37,4 @@ class MenuBar(tk.Menu):
         self.add_cascade(label="Help", menu=self.help_menu)
 
     def about(self):
-        tkmsb.showinfo("About Gravit", "Gravit v0.1\nGravit is a simulator based on the Newton's gravity.")
+        tk.messagebox.showinfo("About Gravit", "Gravit v0.1\nGravit is a simulator based on the Newton's gravity.")
