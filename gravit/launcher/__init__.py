@@ -9,8 +9,8 @@ class Launcher(tk.Tk):
         tk.messagebox.showwarning("Sorry...", "This feature will coming soon ! :(", parent=self.master)
 
     def askplay(self):
-    	#if tk.messagebox.askyesno("Start Simulation", "Do you want to start the Gravit simulation ?"):
-        self.simulation.start()
+    	if tk.messagebox.askyesno("Start Simulation", "Do you want to start the Gravit simulation ?"):
+            self.simulation.start()
 
     def ghpage():
     	wb.new("https://github.com/anat3000/Gravit")
