@@ -1,4 +1,5 @@
 import tkinter as tk
+import tkinter.messagebox #t'as encore oublié.
 
 class MenuBar(tk.Menu):
     def __init__(self, root):
