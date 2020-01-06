@@ -6,6 +6,10 @@ from pygame.locals import *
 
 from random import randint as r
 from threading import Thread
+if __name__=="__main__":
+	pass
+else:
+	import gravit.simulation.calculator
 
 class Simulation(Thread):
 
@@ -40,7 +44,7 @@ class Simulation(Thread):
 
         self.fps_limiter = pygame.time.Clock()
         pygame.key.set_repeat(400, 30)
-
+		
         self.obj1_color = self.rcolor()
         self.obj1 = pygame.draw.circle(self.spacetime, self.obj1_color, (320, 240), 50)
 
@@ -75,3 +79,6 @@ class Simulation(Thread):
                 pygame.display.update(self.obj1)
 
                 self.fps_limiter.tick(self.FPS)
+if __name__=="__main__":
+	sim = Simulation()
+	sim.start()

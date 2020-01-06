@@ -1,5 +1,6 @@
 import tkinter as tk
-import tkinter.messagebox #t'as encore oublié.
+# nb: bien mettre le tkinter.messagebox, il n'est PAS importé par défaut !
+import tkinter.messagebox
 
 class MenuBar(tk.Menu):
     def __init__(self, root):
@@ -7,7 +8,7 @@ class MenuBar(tk.Menu):
         super().__init__(root)
 
 
-	## File Menu
+        ## File Menu
         self.file_menu = tk.Menu(self, tearoff=0)
 
         self.file_menu.add_command(label="New simulation", command=self.master.soon)

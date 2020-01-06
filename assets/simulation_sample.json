@@ -1,0 +1,15 @@
+{
+    "name": "My super simulation",
+    "bodies": [
+        {
+            "name": "My super planet",
+            "mass": 1000,
+            "pos": [0, 0]
+        },
+        {
+            "name": "My hyper planet",
+            "mass": 1053,
+            "pos": [200, 750]
+        }
+    ]
+}
