@@ -1,13 +1,9 @@
 # Gravit
 ### Actully a gravity sandbox. Please enjoy this :)
 
-#### Lastest version : v0.1 (beta)
+![Discord](https://img.shields.io/discord/657510572119687169?color=green&label=Join%20our%20Discord%20server&logoColor=blue)
 
-This project is in dev !
-
-[![Join us on Discord!](https://img.itch.zone/aW1nLzE0OTY1MjgucG5n/original/7O9AMX.png)](https://discord.gg/acXgbHf)
-
-
+#### Lastest version : v0.1 (beta
 
 #### Contributors : 
 
