@@ -1,7 +1,7 @@
 ---
-name: GV## - Bug report
+name: Bug report
 about: Create a report to help us improve
-title: GV0 - Issue !!
+title: GVn - Issue !!
 labels: bug
 assignees: ''
 
