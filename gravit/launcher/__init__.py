@@ -1,9 +1,9 @@
 import tkinter as tk
 import webbrowser as wb
 
-from gravit.launcher.menubar import MenuBar
-from gravit.launcher.bodyframe import BodyFrame
-import gravit.simulation
+from .menubar import MenuBar
+from .bodyframe import BodyFrame
+import ..simulation
 
 class Launcher(tk.Tk):
     def soon(self):
