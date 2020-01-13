@@ -3,7 +3,7 @@ import webbrowser as wb
 
 from .menubar import MenuBar
 from .bodyframe import BodyFrame
-import ..simulation
+from .. import simulation
 
 class Launcher(tk.Tk):
     def soon(self):
@@ -11,7 +11,7 @@ class Launcher(tk.Tk):
 
     def askplay(self):
     	if tk.messagebox.askyesno("Start Simulation", "Do you want to start the Gravit simulation ?"):
-            self.simulation = gravit.simulation.Simulation()
+            self.simulation = simulation.Simulation()
             self.simulation.start()
 
 
