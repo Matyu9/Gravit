@@ -5,11 +5,6 @@
 
 #### Lastest version : v0.1 (beta)
 
-#### Contributors : 
-
-anatom3000
-
-LinuxCat
 
 #### Licence :
 
