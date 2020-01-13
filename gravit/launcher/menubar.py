@@ -20,8 +20,6 @@ class MenuBar(tk.Menu):
 
         self.add_cascade(label="Fichier", menu=self.file_menu)
 
-        self.add_command(label="|")
-
         self.body_menu = tk.Menu(self, tearoff=0)
 
         self.body_menu.add_command(label="New body", command=self.master.soon)
