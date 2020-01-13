@@ -7,7 +7,7 @@ from pygame.locals import *
 from random import randint as r
 from threading import Thread
 
-import gravit.simulation.calculator
+from . import calculator
 
 class Simulation(Thread):
 
@@ -42,7 +42,7 @@ class Simulation(Thread):
 
         self.fps_limiter = pygame.time.Clock()
         pygame.key.set_repeat(400, 30)
-		
+
         self.obj1_color = self.rcolor()
         self.obj1 = pygame.draw.circle(self.spacetime, self.obj1_color, (320, 240), 50)
 

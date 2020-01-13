@@ -1,9 +1,9 @@
 import tkinter as tk
 import webbrowser as wb
 
-from gravit.launcher.menubar import MenuBar
-from gravit.launcher.bodyframe import BodyFrame
-import gravit.simulation
+from .menubar import MenuBar
+from .bodyframe import BodyFrame
+from .. import simulation
 
 class Launcher(tk.Tk):
     def soon(self):
@@ -11,7 +11,7 @@ class Launcher(tk.Tk):
 
     def askplay(self):
     	if tk.messagebox.askyesno("Start Simulation", "Do you want to start the Gravit simulation ?"):
-            self.simulation = gravit.simulation.Simulation()
+            self.simulation = simulation.Simulation()
             self.simulation.start()
 
 
