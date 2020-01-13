@@ -6,10 +6,8 @@ from pygame.locals import *
 
 from random import randint as r
 from threading import Thread
-if __name__=="__main__":
-	pass
-else:
-	import gravit.simulation.calculator
+
+import gravit.simulation.calculator
 
 class Simulation(Thread):
 
