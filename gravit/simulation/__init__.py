@@ -7,7 +7,7 @@ from pygame.locals import *
 from random import randint as r
 from threading import Thread
 
-import gravit.simulation.calculator
+import .calculator
 
 class Simulation(Thread):
 
