@@ -7,6 +7,8 @@ from pygame.locals import *
 from random import randint as r
 from threading import Thread
 
+from . import calculator
+
 class Simulation(Thread):
 
     def do_play(self):
