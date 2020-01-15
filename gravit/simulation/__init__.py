@@ -36,6 +36,7 @@ class Simulation(Thread):
         pygame.init()
         
         #init de la fenetre
+        pygame.display.set_caption("Gravit Simulation")
         self.spacetime = pygame.display.set_mode(self.win_size)
 
         self.fps_clock = pygame.time.Clock()
@@ -62,6 +63,7 @@ class Simulation(Thread):
 
                     if event.type == QUIT:
                         self.do_stop()
+                        exit(0)
 
                     if event.type == KEYDOWN:
 
@@ -85,6 +87,8 @@ class Simulation(Thread):
                 pygame.display.flip()
 
                 self.fps_clock.tick(self.FPS)
+
+
 
 
 
