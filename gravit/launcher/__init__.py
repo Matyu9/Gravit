@@ -25,6 +25,7 @@ class Launcher(tk.Tk):
 
         #some properties of the launcher
         self.geometry("960x720")
+        self.title("Gravit Launcher")
 
 
         #menu bar
