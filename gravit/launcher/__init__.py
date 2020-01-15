@@ -14,9 +14,11 @@ class Launcher(tk.Tk):
             self.simulation = simulation.Simulation()
             self.simulation.start()
 
+    def play_sim(self):
+        if True:
+            pass
 
-
-    def ghpage():
+    def ghpage(self):
     	wb.new("https://github.com/anatom3000/Gravit")
 
     def __init__(self):
