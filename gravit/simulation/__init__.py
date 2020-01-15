@@ -7,8 +7,6 @@ from pygame.locals import *
 from random import randint as r
 from threading import Thread
 
-from . import calculator
-
 class Simulation(Thread):
 
     def do_play(self):
@@ -17,41 +15,49 @@ class Simulation(Thread):
 
     def do_pause(self):
         self.play = False
+        self.stop = False
 
     def do_stop(self):
         self.play = False
         self.stop = True
 
     def rcolor(self):
-        return r(0, 255), r(0, 255), r(0, 255)
-
-    def gen(self, gravit):
-        pass
+        color = r(0, 255), r(0, 255), r(0, 255)
+        return color
 
     def __init__(self, FPS=60, win_size=(640, 480)):
         super().__init__()
+
         self.FPS = FPS
         self.win_size = win_size
 
     def run(self):
 
         pygame.init()
-
+        
+        #init de la fenetre
         self.spacetime = pygame.display.set_mode(self.win_size)
 
-        self.fps_limiter = pygame.time.Clock()
-        pygame.key.set_repeat(400, 30)
+        self.fps_clock = pygame.time.Clock()
+        #pygame.key.set_repeat(400, 30)
 
-        self.obj1_color = (255, 255, 255)
-        self.obj1 = pygame.draw.circle(self.spacetime, self.obj1_color, (320, 240), 50)
+        #affichage du bg
+        self.bg = pygame.Surface(self.win_size).convert()
+        #blit du bg
+        self.spacetime.blit(self.bg, (0, 0))
+        
+        #setup de l'astre
+        self.obj1 = pygame.Surface((100, 100))
+        pygame.draw.circle(self.obj1, self.rcolor(), (50, 50), 50)
+        # 1er affichage
+        self.spacetime.blit(self.obj1, (320, 240))
+        self.obj1_rect = self.obj1.get_rect()
 
-        self.fond = pygame.Surface(self.win_size).convert()
         self.do_play()
-
+        #boucle de jeu
         while not self.stop:
-
             while self.play:
-                
+                #events et leurs reactions
                 for event in pygame.event.get():
 
                     if event.type == QUIT:
@@ -60,27 +66,28 @@ class Simulation(Thread):
                     if event.type == KEYDOWN:
 
                         if event.key == K_RIGHT:
-                            self.obj1.move_ip(2, 0)
+                            self.obj1_rect.move_ip(2, 0)
 
                         if event.key == K_LEFT:
-                            self.obj1.move_ip(-2, 0)
+                            self.obj1_rect.move_ip(-2, 0)
 
                         if event.key == K_DOWN:
-                            self.obj1.move_ip(0 ,2)
+                            self.obj1_rect.move_ip(0 ,2)
 
                         if event.key == K_UP:
-                            self.obj1.move_ip(0, -2)
-                            
+                            self.obj1_rect.move_ip(0, -2)
+                
 
+                self.spacetime.blit(self.bg, (0, 0))
 
-                self.spacetime.blit(self.fond, (0, 0))
-
-                self.obj1 = pygame.draw.circle(self.spacetime, self.obj1_color, self.obj1.center, 50)
+                self.spacetime.blit(self.obj1, self.obj1_rect)
 
                 pygame.display.flip()
 
-                self.fps_limiter.tick(self.FPS)
+                self.fps_clock.tick(self.FPS)
+
+
 
 if __name__=="__main__":
-	sim = Simulation()
-	sim.start()
+    sim = Simulation()
+    sim.start() 
