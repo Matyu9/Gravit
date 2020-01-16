@@ -34,19 +34,19 @@ class Simulation(Thread):
     def run(self):
 
         pygame.init()
-        
-        #init de la fenetre
+
+        print("init de la fenetre")
         pygame.display.set_caption("Gravit Simulation")
         self.spacetime = pygame.display.set_mode(self.win_size)
 
         self.fps_clock = pygame.time.Clock()
-        #pygame.key.set_repeat(400, 30)
+        pygame.key.set_repeat(400, 30)
 
         #affichage du bg
         self.bg = pygame.Surface(self.win_size).convert()
         #blit du bg
         self.spacetime.blit(self.bg, (0, 0))
-        
+
         #setup de l'astre
         self.obj1 = pygame.Surface((100, 100))
         pygame.draw.circle(self.obj1, self.rcolor(), (50, 50), 50)
@@ -63,22 +63,28 @@ class Simulation(Thread):
 
                     if event.type == QUIT:
                         self.do_stop()
+                        pygame.quit()
                         exit(0)
 
                     if event.type == KEYDOWN:
 
                         if event.key == K_RIGHT:
                             self.obj1_rect.move_ip(2, 0)
+                            self.obj1_rect.move_ip(2, 0)
 
                         if event.key == K_LEFT:
                             self.obj1_rect.move_ip(-2, 0)
+                            self.obj1_rect.move_ip(-2, 0)
+
 
                         if event.key == K_DOWN:
+                            self.obj1_rect.move_ip(0 ,2)
                             self.obj1_rect.move_ip(0 ,2)
 
                         if event.key == K_UP:
                             self.obj1_rect.move_ip(0, -2)
-                
+                            self.obj1_rect.move_ip(0, -2)
+
 
                 self.spacetime.blit(self.bg, (0, 0))
 
@@ -88,10 +94,21 @@ class Simulation(Thread):
 
                 self.fps_clock.tick(self.FPS)
 
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    self.do_stop()
+                    pygame.quit()
+                    exit(0)
 
+            self.spacetime.blit(self.bg, (0, 0))
 
+            self.spacetime.blit(self.obj1, self.obj1_rect)
+
+            pygame.display.flip()
+
+            self.fps_clock.tick(self.FPS)
 
 
 if __name__=="__main__":
     sim = Simulation()
-    sim.start() 
+    sim.start()
