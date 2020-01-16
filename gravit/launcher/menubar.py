@@ -9,16 +9,16 @@ class MenuBar(tk.Menu):
 
 
         ## File Menu
-        self.file_menu = tk.Menu(self, tearoff=0)
+        self.simulation_menu = tk.Menu(self, tearoff=0)
 
-        self.file_menu.add_command(label="New simulation", command=self.master.soon)
-        self.file_menu.add_command(label="Play simulation", command=self.master.soon)
-        self.file_menu.add_command(label="Pause simulation", command=self.master.soon)
-        self.file_menu.add_command(label="Stop simulation", command=self.master.soon)
-        self.file_menu.add_separator()
-        self.file_menu.add_command(label="QUit launcher", command=self.master.destroy)
+        self.simulation_menu.add_command(label="New simulation", command=self.master.soon)
+        self.simulation_menu.add_command(label="Play simulation", command=self.master.play_sim)
+        self.simulation_menu.add_command(label="Pause simulation", command=self.master.pause_sim)
+        self.simulation_menu.add_command(label="Stop simulation", command=self.master.stop_sim)
+        self.simulation_menu.add_separator()
+        self.simulation_menu.add_command(label="Quit launcher", command=self.master.destroy)
 
-        self.add_cascade(label="Fichier", menu=self.file_menu)
+        self.add_cascade(label="Fichier", menu=self.simulation_menu)
 
         self.body_menu = tk.Menu(self, tearoff=0)
 
