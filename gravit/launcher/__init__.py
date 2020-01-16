@@ -9,17 +9,35 @@ class Launcher(tk.Tk):
     def soon(self):
         tk.messagebox.showwarning("Sorry...", "This feature will coming soon ! :(")
 
+    def sim_is_alive(self):
+        try:
+            return self.simulation.is_alive()
+        except AttributeError:
+            return False
+
     def askplay(self):
-    	if tk.messagebox.askyesno("Start Simulation", "Do you want to start the Gravit simulation ?"):
+        print(self.sim_is_alive())
+        if tk.messagebox.askyesno("Start Simulation", "Do you want to start the Gravit simulation ?") and (not self.sim_is_alive()):
             self.simulation = simulation.Simulation()
             self.simulation.start()
+        print(self.sim_is_alive())
+
 
     def play_sim(self):
-        if True:
-            pass
+        if self.sim_is_alive():
+            self.simulation.do_play()
+
+    def pause_sim(self):
+        if self.sim_is_alive():
+            self.simulation.do_pause()
+
+    def stop_sim(self):
+        if self.sim_is_alive():
+            self.simulation.do_stop()
+            
 
     def ghpage(self):
-    	wb.new("https://github.com/anatom3000/Gravit")
+        wb.new("https://github.com/anatom3000/Gravit")
 
     def __init__(self):
         #init of the super-class
