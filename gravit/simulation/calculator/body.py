@@ -1,5 +1,4 @@
 from .utility import *
-from pygame.time import Clock
 
 G = 6.67430*(10**-11)
 
