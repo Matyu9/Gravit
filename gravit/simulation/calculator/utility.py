@@ -19,10 +19,13 @@ class Vector(tuple):
     	"""
         return atan(x/y)
         
+    def __add__(self, other):
+        
+        return Vector(self[0]+other[0], self[1]+other[1])
+    
     def __mult__(self, nb):
-    	"""Used to mult. vector with number like float or int
-    	"""
-        return Vector(self.x*nb, self.y*nb)
+ 
+        return Vector(self[0]*nb, self[1]*nb)
         
 class Position(tuple):
 	"""A Position object which inherits from tuple but with additionnals methods.
@@ -42,3 +45,4 @@ class Position(tuple):
     	   /Generate a Vector from self to other.
     	"""
         return Vector(other[0]-self[0], other[1]-self[1])
+
