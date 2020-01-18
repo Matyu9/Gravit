@@ -9,11 +9,6 @@ class Body:
         self.mass = mass #mass is a float
         self.pos = pos # pos is a Position object
         self.acceleration = Vector(0, 0)
-        self.master = None
-    def calc_move(self):
-        if self.master != None or self in self.master.bodies:
-            a = 0
-            for i in self.master.bodies:
-                a += self.mass*i.mass/(i.pos.to(self.pos).abs()**3)*i.pos.to(self.pos)
-            
-            self.acceleration = -G * a
+        self.velocity = Vector(0, 0)
+        self.deplacement = Vector(0, 0)
+        self.master = master
