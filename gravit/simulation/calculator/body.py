@@ -1,13 +1,15 @@
-from .utility import *
-
-G = 6.67430*(10**-11)
+from utility import *
 
 class Body:
-	"""Math-only object which calc. the body deplacement.'"""
-    def __init__(self, mass, pos):
+    def __init__(self, name, mass, pos):
+        self.name = name
         self.mass = mass #mass is a float
         self.pos = pos # pos is a Position object
         self.acceleration = Vector(0, 0)
         self.velocity = Vector(0, 0)
         self.deplacement = Vector(0, 0)
-        self.master = master
+        self.master = 0
+        self.inertia = Vector(0, 0)
+    def move(self, pos):
+        self.pos += pos
+        print(self.name+"'s pos : ("+self.pos[0]+", "+self.pos[1]+")")
