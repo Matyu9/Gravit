@@ -35,7 +35,7 @@ class Calculator(threading.Thread):
 		body.acceleration = Vector(0, 0)
 		for other in self.bodies-BodyList(body):
 			a = (body.pos.to(other.pos))
-			b = (other.mass / body.pos.to(other.pos).abs()**3)
+			b = (other.mass / (body.pos.to(other.pos).abs()**3))
 			body.acceleration += a * b
 
 		body.acceleration *= -G

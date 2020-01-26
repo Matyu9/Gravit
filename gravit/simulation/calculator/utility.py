@@ -7,18 +7,23 @@ class Vector(tuple):
         return self
 
     def abs(self):
+        
         return sqrt(self[0]**2+self[1]**2)
 
     def dir(self):
+        
         return atan(self[0]/self[1])
 
     def __add__(self, other):
+        
         return Vector(self[0]+other[0], self[1]+other[1])
 
-    def __mult__(self, nb):
+    def __mul__(self, nb):
+        
         return Vector(self[0]*nb, self[1]*nb)
 
     def __repr__(self):
+        
         return "Vector("+str(self[0])+", "+str(self[1])+")"
 
 class Position(tuple):
@@ -31,9 +36,6 @@ class Position(tuple):
         return Position(self[0]+other[0],
                         self[1]+other[1])
 
-    def __rtruediv__(self, other):
-        return Position(self[0]+other[0],
-                        self[1]+other[1])
 
     def to(self, other):
         return Vector(other[0]-self[0], other[1]-self[1])
@@ -50,4 +52,4 @@ class BodyList(list):
         for i in self:
             if not i in other:
                 n.append(i)
-        return n
+        return n 

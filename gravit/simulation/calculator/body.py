@@ -10,6 +10,7 @@ class Body:
         self.deplacement = Vector(0, 0)
         self.master = 0
         self.inertia = Vector(0, 0)
+    
     def move(self, pos):
         self.pos += pos
-        print(self.name+"'s pos : ("+self.pos[0]+", "+self.pos[1]+")")
+        print( self.name + "'s pos : (" + str(self.pos[0]) + ", " + str(self.pos[1])+ ")" )
