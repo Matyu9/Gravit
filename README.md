@@ -3,7 +3,7 @@
 
 [![Discord](https://img.shields.io/discord/657510572119687169?color=green&label=Join%20our%20Discord%20server&logoColor=blue)](https://discord.gg/acXgbHf)
 
-#### Lastest version : v0.1 (beta)
+#### Lastest version : v0.2-beta
 
 
 #### Licence :
