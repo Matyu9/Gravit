@@ -22,7 +22,7 @@ class Calculator(threading.Thread):
 		self.play = False
 		self.stop = True
 
-	def __init__(self, *bodies, TPS=30):
+	def __init__(self, *bodies, TPS=100):
 		super().__init__()
 		self.bodies = BodyList()
 		for b in bodies:
@@ -60,7 +60,7 @@ class Calculator(threading.Thread):
 if __name__=="__main__":
 
 	c = Calculator(
-					Body("obj1", 10000, Position(0.0, 0.0)),
-					Body("obj2", 10000, Position(1000.0, 0.0)))
+					Body("obj1", 10**12, Position(0.0, 0.0)),
+					Body("obj2", 10**12, Position(1000.0, 0.0)))
 
 	c.start()
