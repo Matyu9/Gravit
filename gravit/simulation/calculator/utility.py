@@ -52,4 +52,4 @@ class BodyList(list):
         for i in self:
             if not i in other:
                 n.append(i)
-        return n 
+        return n
