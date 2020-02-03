@@ -1,6 +1,6 @@
 import tkinter as tk
 # nb: bien mettre le tkinter.messagebox, il n'est PAS importé par défaut !
-import tkinter.messagebox
+
 
 class MenuBar(tk.Menu):
     def __init__(self, root):
