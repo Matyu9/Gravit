@@ -11,7 +11,7 @@
 2. Unzip the downloaded file. You can place it everywhere.
 3. Open the terminal (Win+R > `cmd` on Windows), move into the unzipped folder, and then type `python3 main.py`. Gravit may be launched.
 
-Note : if you don't have the `pygame` library, type `pip3 install pygame` on Linux or `python3 -m pip insatll pygame` on Windows.
+Note : if you don't have the `pygame` library, type `pip3 install pygame` on Linux or `python3 -m pip install pygame` on Windows.
 
 #### Licence :
 
