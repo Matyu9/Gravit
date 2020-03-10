@@ -71,22 +71,6 @@ class Calculator(threading.Thread):
             # Reset body acceleration
             body.acceleration = Vector(0, 0)
 
-    """def calc_move(self, body):
-
-        body.acceleration = Vector(0, 0) # ->aM =
-        for other in self.bodies-BodyList(body): # ∑ (
-            a = (body.pos.to(other.pos)) # Pi->PM
-            b = (other.mass / ((body.pos.to(other.pos).abs())**3)) # mi /( ||Pi->PM||^3 )
-            body.acceleration += a * b # mi /( ||Pi->PM||^3 ) * Pi->PM
-
-        body.acceleration *= -G
-
-        body.velocity = body.acceleration*self.TPS
-        body.velocity += body.inertia
-
-        body.deplacement = body.velocity*self.TPS
-
-        return body.deplacement"""
 
     def run(self):
         self.do_play()
@@ -95,7 +79,6 @@ class Calculator(threading.Thread):
                 body.move(Vector(0, 0))
             time.sleep(1/self.max_tps)
             while self.play:
-                t = time.time()
                 self.calculate_acceleration()
                 self.apply_acceleration()
                 time.sleep(1/self.max_tps)
@@ -107,5 +90,4 @@ if __name__=="__main__":
                     Body("obj1", 6*(10**24), Position(-10000, 0)),
                     Body("obj2", 6*(10**24), Position(10000, 0))
     ) # simulation qui montre 2 terres à 20'000 kms l'une de l'autre
-
     c.start() 
