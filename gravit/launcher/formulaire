@@ -1,0 +1,46 @@
+from tkinter import *
+import tkinter.messagebox
+
+class Form():
+    class Verif(): 
+        def recupere():
+            tkinter.messagebox.showinfo("name", e1.get())
+        def recupere2():
+            tkinter.messagebox.showinfo("mass", e2.get())
+        def recupere3():
+            tkinter.messagebox.showinfo("position")
+    
+    wind = Tk()
+
+
+    wind.title("new star")
+    wind.geometry("450x125")
+
+    Label(wind, text="My name: ").grid(row=0)
+    Label(wind, text="My mass: ").grid(row=1)
+    Label(wind, text="My position: ").grid(row=2)
+    Label(wind, text="My inertia: ").grid(row=3)
+
+
+
+    e1 = Entry(wind)
+    e2 = Entry(wind)
+    e3 = Entry(wind)
+    e4 = Entry(wind)
+    e5 = Entry(wind)
+    e6 = Entry(wind)
+
+
+    e1.grid(row=0, column=1)
+    e2.grid(row=1, column=1)
+    e3.grid(row=2, column=1)
+    e4.grid(row=2, column=2)
+    e5.grid(row=3, column=1)
+    e6.grid(row=3, column=2)
+
+    bouton = Button(wind, text="Set me", command=Verif)
+    bouton.grid()
+
+  
+
+    wind.mainloop()
