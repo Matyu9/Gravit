@@ -35,7 +35,6 @@ class Simulation(Thread):
 
         pygame.init()
 
-        print("init de la fenetre")
         pygame.display.set_caption("Gravit Simulation")
         self.spacetime = pygame.display.set_mode(self.win_size)
 
