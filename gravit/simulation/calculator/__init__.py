@@ -2,11 +2,17 @@ import threading
 import time
 import math
 
+class Body:
+    def __init__(self, name, mass, pos, acceleration=[0, 0], velocity=[0, 0]):
+        self.name = name
+        self.m = mass  # mass is the mass of that object
+        self.pos = pos  # pos is a list of x and y position of that body in pixels eg : [500,600]
+        self.a = acceleration  # acceleration is a list of x and y components of accelaration of that body in pixel units
+        self.v = velocity  # velocity is a list of x and y components of velocity of that body in pixel units
 
-from body import *
 
 ## Constantes de la Physique
-G = 6.6743015*(10**-11)# SI
+G = 1 # SI
 
 
 class Calculator(threading.Thread):
@@ -23,71 +29,79 @@ class Calculator(threading.Thread):
         self.play = False
         self.stop = True
 
-    def __init__(self, *bodies, TPS=0.5):
+    def __init__(self, *bodies, TPS=15, delta=None):
         super().__init__()
-        self.bodies = BodyList()
+        self.bodies = []
         for b in bodies:
             self.bodies.append(b)
+        self.time = 0.0
         self.max_tps = TPS
-        self.TPS = TPS
+        if delta == None:
+            self.delta = 1/self.max_tps
+        else:
+            self.delta = delta
 
-    def calculate_acceleration(self):
-        a = len(self.bodies) - 1
-        while a >= 0:
-            objectA = self.bodies[a]
-            # Calculate forces applied to objects
-            b = len(self.bodies) - 1
-            while b >= 0:
-                if b != a:
-                    objectB = self.bodies[b] ## OutOfRange : pb de
-                    # Calculate the distance between objectA and objectB
-                    distance = objectA.pos.to(objectB.pos).abs()
+    def calculate_forces(self, pos_a, pos_b, m_a, m_b):
+        x_diff = pos_b[0] - pos_a[0]
+        y_diff = pos_b[1] - pos_a[1]
+        hypotenuse = math.sqrt(((x_diff) ** 2 + (y_diff) ** 2))
+        sin = x_diff / hypotenuse
+        cos = y_diff / hypotenuse
+        f = G * m_a * m_b / hypotenuse ** 2
+        fx = f * sin
+        fy = f * cos
 
-                    # Find angle from vector. Fun note, if we reverse objectA and B we have anti-gravity
-                    angleToMass = math.atan2(
-                        objectB.pos[1]-objectA.pos[1],
-                        objectB.pos[0]-objectA.pos[0]
-                    )
-                    # All credit for this formula goes to an Isaac Newton
-                    objectA.acceleration += (
-                        math.cos(angleToMass) *
-                        (objectB.mass/distance**2), # velocity X
-                        math.sin(angleToMass) *
-                        (objectB.mass/distance**2) # velocity Y
-                    )
-                b -=1
-            a -= 1
+        return fx, fy
 
-    # Loops through all objects and applies the force delta to the velocity
-    def apply_acceleration(self):
-        for body in self.bodies:
+    def apply_forces(self):
+        in_t = time.time()
 
-            body.velocity += (body.acceleration[0] * self.TPS,
-                              body.acceleration[1] * self.TPS)
+        for body_a in self.bodies:
+            pos_a = body_a.pos
+            m_a = body_a.m
+            fx_total = 0
+            fy_total = 0
 
-            body.move((body.velocity[0] * self.TPS * -G,
-                      body.velocity[1] * self.TPS * -G
-            ))
-            # Reset body acceleration
-            body.acceleration = Vector(0, 0)
+            for body_b in self.bodies:
+                if body_b.pos == pos_a:
+                    continue
+                fx, fy = self.calculate_forces(pos_a, body_b.pos, m_a, body_b.m)
+                fx_total += fx
+                fy_total += fy
 
+            body_a_acceleration = body_a.a
+
+            body_a_acceleration[0] = fx_total / m_a
+            body_a_acceleration[1] = fy_total / m_a
+
+            body_a.v[0] = body_a.v[0] + body_a_acceleration[0] * self.delta
+            body_a.v[1] = body_a.v[1] + body_a_acceleration[1] * self.delta
+
+            pos_a[0] = 0.5 * body_a_acceleration[0] * self.delta * self.delta + body_a.v[0] * self.delta + pos_a[0]
+            pos_a[1] = 0.5 * body_a_acceleration[1] * self.delta * self.delta + body_a.v[1] * self.delta + pos_a[1]
+
+            # Infos de debug
+            # if __name__=="__main__":
+            #     print("[{}] : ({}, {})".format(body_a.name, pos_a[0], pos_a[1]))
+
+        self.run_speed = time.time() - in_t
 
     def run(self):
+        t = 0.0
         self.do_play()
         while not self.stop:
-            for body in self.bodies:
-                body.move(Vector(0, 0))
-            time.sleep(1/self.max_tps)
             while self.play:
-                self.calculate_acceleration()
-                self.apply_acceleration()
+                self.apply_forces()
+                self.TPS = 1/(self.max_tps)-self.run_speed
                 time.sleep(1/self.max_tps)
+
 
 
 if __name__=="__main__":
 
     c = Calculator(
-                    Body("obj1", 6*(10**24), Position(-10000, 0)),
-                    Body("obj2", 6*(10**24), Position(10000, 0))
+                    Body("obj1", 10**6, [-100, -100]),
+                    Body("obj2", 10**6, [100, 100])
     ) # simulation qui montre 2 terres à 20'000 kms l'une de l'autre
-    c.start() 
+    c.start()
+
