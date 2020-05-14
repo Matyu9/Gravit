@@ -1,4 +1,5 @@
 import tkinter as tk
+import tkinter.messagebox
 import webbrowser as wb
 
 from .menubar import MenuBar
@@ -16,11 +17,9 @@ class Launcher(tk.Tk):
             return False
 
     def askplay(self):
-        print(self.sim_is_alive())
         if tk.messagebox.askyesno("Start Simulation", "Do you want to start the Gravit simulation ?") and (not self.sim_is_alive()):
             self.simulation = simulation.Simulation()
             self.simulation.start()
-        print(self.sim_is_alive())
 
 
     def play_sim(self):
