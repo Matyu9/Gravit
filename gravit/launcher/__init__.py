@@ -46,6 +46,9 @@ class Launcher(tk.Tk):
         self.geometry("960x720")
         self.title("Gravit Launcher")
 
+        self.bodies_frame = BodyFrame(self)
+        self.bodies_frame.pack(expand=True, fill='both')
+
 
         #menu bar
         self.menubar = MenuBar(self)
