@@ -15,7 +15,7 @@ class Body:
 G = 1 # SI
 
 
-class Calculator(threading.Thread):
+class GravityEngine(threading.Thread):
 
     def do_play(self):
         self.play = True

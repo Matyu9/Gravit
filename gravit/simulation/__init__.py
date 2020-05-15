@@ -25,7 +25,7 @@ class Simulation(Thread):
         color = r(0, 255), r(0, 255), r(0, 255)
         return color
 
-    def __init__(self, FPS=60, win_size=(640, 480)):
+    def __init__(self,FPS=60, win_size=(640, 480)):
         super().__init__()
 
         self.FPS = FPS
