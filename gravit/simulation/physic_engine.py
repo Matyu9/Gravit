@@ -2,30 +2,16 @@ import math
 import time
 from threading import Thread
 
-def _closest(value, list):
-    scale = []
-    for i in list:
-        scale.append(abs(value - i))
-    a = min(scale)
-    if value + a in list:
-        return value + a
-    elif value - a in list:
-        return value - a
-    else:
-        raise ValueError("an error occured !")
 
 class ValueInTime:
-    def __init__(self, value, t=0):  # t must be in seconds
-        """t must be in seconds."""
-        self._values = {}
-        self._values[round(t, 6)] = value
+    """ValueInTime is no longer used as cache system. It's only here for compatibility. (yes I'm lazy :P)"""
+    def __init__(self, value):
+        self.value = value
+    def get(self, time):
+        return self.value
 
-    def __getitem__(self, time):
-        return self._values[_closest(time, list(self._values))]
-    def __setitem__(self, time, value):
-        self._values[round(key, 6)] = value
-    def __repr__(self):
-        return self._values.__repr__()
+    def set(self, time, value):
+        self.value = value
 
 
 class Body:
@@ -81,35 +67,53 @@ class GravityEngine(Thread):
         in_t = time.time()
 
         for body_a in self.bodies:
-            pos_a = body_a.pos[self.time]
+            pos_a = body_a.pos.get(self.time)
             m_a = body_a.m
             fx_total = 0
             fy_total = 0
 
             for body_b in self.bodies:
-                if body_b.pos[self.time] == pos_a:
+                if body_b.pos.get(self.time) == pos_a:
                     continue
-                fx, fy = self.calculate_forces(pos_a, body_b.pos[self.time], m_a, body_b.m)
+                # on calcule les forces applique sur les astres
+                fx, fy = self.calculate_forces(pos_a, body_b.pos.get(self.time), m_a, body_b.m)
                 fx_total += fx
                 fy_total += fy
 
-            body_a_acceleration = body_a.a[self.time]
+            body_a_acceleration = body_a.a.get(self.time)
 
+            # apres avoir calcule les forces, on calcule l'acceleration
             body_a_acceleration[0] = fx_total / m_a
             body_a_acceleration[1] = fy_total / m_a
 
-            body_a.v[self.time][0] += body_a_acceleration[0] * self.delta
-            body_a.v[self.time][1] += body_a_acceleration[1] * self.delta
+            # on applique l'acceleration a l'obj Body
+            body_a.a.set(self.time, body_a_acceleration)
 
-            pos_a[0] = 0.5 * body_a_acceleration[0] * self.delta * self.delta + body_a.v[self.time][0] * self.delta + pos_a[0]
-            pos_a[1] = 0.5 * body_a_acceleration[1] * self.delta * self.delta + body_a.v[self.time][1] * self.delta + pos_a[1]
+            body_a_velocity = body_a.a.get(self.time)
+
+            # on calcule la velocite
+            body_a_velocity[0] += body_a_acceleration[0] * self.delta
+            body_a_velocity[1] += body_a_acceleration[1] * self.delta
+
+            # on l'applique a Body
+            body_a.v.set(self.time, body_a_velocity)
+
+            # pas de pos_a = [...].get(self.time) car fait plus haut (ligne 87)
+
+            # on calcule la postion
+            pos_a[0] += 0.5 * body_a_acceleration[0] * self.delta * self.delta + body_a.v.get(self.time)[0] * self.delta
+            pos_a[1] += 0.5 * body_a_acceleration[1] * self.delta * self.delta + body_a.v.get(self.time)[1] * self.delta
+
+            # on l'applique a Body
+            body_a.pos.set(self.time, pos_a)
 
             # Infos de debug
             if __name__ == "__main__":
-                print("[{}] : ({}, {})".format(body_a.name, pos_a[0], pos_a[1]))
+                print("[{}] : {} ".format(body_a.name, body_a.pos.value))
 
         self.run_speed = time.time() - in_t
         self.time += round(self.delta, 6)
+        # infos de debug
         if __name__ == "__main__":
             print("t =", self.time)
 
