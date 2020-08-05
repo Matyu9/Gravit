@@ -26,6 +26,7 @@ class Simulation(Thread):
     def do_stop(self):
         self.play = False
         self.stop = True
+        pygame.quit()
 
     def __init__(self, bodies=None):
         super().__init__()
@@ -36,7 +37,7 @@ class Simulation(Thread):
                 physic.Body("B", [450, 550], [0, 0], [1, 0], 20),
                 physic.Body("C", [550, 450], [0, 0], [0, -1], 20),
                 physic.Body("D", [550, 550], [0, 0], [-1, 0], 20),
-                physic.Body("O", [500, 500], [0, 0], [0, 0], 20)
+                physic.Body("O", [500, 500], [0, 0], [0, 0], 10)
             ]
             # bodies = [
             #     physic.Body("A", [500, 500], [0, 0], [0, 0], 20),
@@ -79,10 +80,7 @@ class Simulation(Thread):
                     if event.type == pygame.KEYDOWN:
                         # check for debug screen key
                         if event.key == pygame.K_F3:  # yes the debug screen key is from Minecraft :)
-                            try:
-                                display_debug_screen = not display_debug_screen
-                            except UnboundLocalError:
-                                display_debug_screen = True
+                            display_debug_screen = True
                         # check for pause key
                         if event.key == pygame.K_SPACE:
                             self.do_pause()
@@ -91,15 +89,25 @@ class Simulation(Thread):
                             self.do_stop()
                             return
 
-                for body_a in bodies:
+                    if event.type == pygame.KEYUP:
+                        if event.key == pygame.K_F3:
+                            display_debug_screen = False
+
+
+                for key_a, body_a in enumerate(bodies):
                     pos_a = body_a.pos
                     m_a = body_a.m
                     fx_total = 0
                     fy_total = 0
 
-                    for body_b in bodies:
+                    for key_b, body_b in enumerate(bodies):
                         if body_b.pos == pos_a:
                             continue
+                        if physic.check_collision(body_a, body_b):
+                            bodies[key_a] = physic.merge_bodies(body_a, body_b)
+                            del bodies[key_b]
+                            continue
+
                         fx, fy = physic.calculate_forces(pos_a, body_b.pos, m_a, body_b.m)
                         fx_total += fx
                         fy_total += fy
@@ -187,4 +195,4 @@ class Simulation(Thread):
             pygame.display.flip()
             fps_clock.tick()
 
-        # sys.exit(0)
+        # exit(0)
