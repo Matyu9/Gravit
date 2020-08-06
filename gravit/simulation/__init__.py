@@ -1,5 +1,4 @@
 # coding: utf-8
-# !/usr/bin/env python3
 
 import pygame
 from threading import Thread
@@ -12,6 +11,29 @@ HEIGHT = 1000
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 BLUE = (109, 196, 255)
+
+class CameraHandler:
+    def __init__(self, resolution, zoom=1.0, camera_pos=(0, 0)):
+        self.resolution = resolution
+        self.zoom = zoom
+        self.camera_pos = list(camera_pos
+
+    def move_camera(self, x, y):
+        self.camera_pos = (
+            self.camera_pos[0]+x,
+            self.camera_pos[1]+y,
+        )
+    def zoom_in(self, delta):
+        self.zoom *= delta
+
+    def zoom_out(self, delta):
+        self.zoom /= delta
+
+    def convert_pos(self, pos):
+        return [
+            pos[0]*self.zoom + self.resolution[0] - self.camera_pos[0],
+            pos[1]*self.zoom + self.resolution[1] - self.camera_pos[1]
+        ]
 
 
 class Simulation(Thread):
