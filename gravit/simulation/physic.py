@@ -1,6 +1,8 @@
 import random
 import math
 
+from pygame import Rect
+
 # CONSTANTS
 G = 6.67408e-11 * 1_000_000_000  # Otherwise the bodies would not move given the small value of gravitational constant
 
