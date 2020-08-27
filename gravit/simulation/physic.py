@@ -28,10 +28,10 @@ class Body:
 def calculate_forces(pos_a, pos_b, m_a, m_b):
     x_diff = pos_b[0] - pos_a[0]
     y_diff = pos_b[1] - pos_a[1]
-    hypotenuse = math.sqrt((x_diff ** 2 + y_diff ** 2))
-    sin = x_diff / hypotenuse
-    cos = y_diff / hypotenuse
-    f = G * m_a * m_b / hypotenuse ** 2
+    distance = math.sqrt((x_diff ** 2 + y_diff ** 2))
+    sin = x_diff / distance
+    cos = y_diff / distance
+    f = G * m_a * m_b / distance ** 2
     fx = f * sin
     fy = f * cos
 
@@ -45,6 +45,22 @@ def check_collision(a, b):
     )
     return distance <= (a.radius + b.radius)
 
+def merge_radius(bodyA, bodyB):
+    aeraA = bodyA.radius**2 * math.pi
+    aeraB = bodyB.radius**2 * math.pi
+
+    densityA = bodyA.m / aeraA
+    densityB = bodyB.m / aeraB
+
+    densityAB = (densityA+densityB)/2
+
+    massAB = bodyA.m + bodyB.m
+
+    aeraAB = massAB / densityAB
+
+    radiusAB = math.sqrt(aeraAB/math.pi)
+
+    return radiusAB
 
 def merge_bodies(a, b):
     name = a.name + " + " + b.name
@@ -66,5 +82,7 @@ def merge_bodies(a, b):
         (a.color[1] + b.color[1]) / 2,
         (a.color[2] + b.color[2]) / 2
     )
-    radius = (a.m / a.radius + b.m / b.radius) / 2
+
+    radius = merge_radius(a, b)
+
     return Body(name, pos, acceleration, velocity, mass, color, radius)

@@ -65,10 +65,8 @@ class Simulation(Thread):
 
         if bodies is None:
             bodies = [
-                physic.Body("A", [-50, -50], [0, 0], [0, 0], 50),
-                physic.Body("B", [-50, 50], [0, 0], [0, 0], 50),
-                physic.Body("C", [50, -50], [0, 0], [0, 0], 50),
-                physic.Body("D", [50, 50], [0, 0], [0, 0], 50),
+                physic.Body("A", [-100, -100], [0, 0], [0, 0], 50),
+                physic.Body("B", [200, 200], [0, 0], [0, 0], 50),
                 physic.Body("O", [0, 0], [0, 0], [0, 0], 50)
             ]
             # bodies = [
@@ -149,7 +147,6 @@ class Simulation(Thread):
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 3:
                         move_camera = True
-                        print()
                     if event.button == 4:
                         self.camera_handler.zoom_in(1.1)
                     if event.button == 5:
