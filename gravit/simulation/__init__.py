@@ -4,13 +4,15 @@ import pygame
 from threading import Thread
 
 from . import physic
+from . import buttons
 
 # CONSTANTS
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 BLUE = (109, 196, 255)
 
-CAM_DEPLACEMENT = 5
+CAM_DEPLACEMENT = 1
+BUTTON_SIZE = 32
 
 
 class CameraHandler:
@@ -19,10 +21,14 @@ class CameraHandler:
         self.zoom = zoom
         self.camera_pos = camera_pos
 
+    def home(self):
+        self.camera_pos = (0, 0)
+        self.zoom = 1.0
+
     def move_camera(self, x, y):
         self.camera_pos = (
-            self.camera_pos[0]+x,
-            self.camera_pos[1]+y,
+            self.camera_pos[0] + x,
+            self.camera_pos[1] + y,
         )
 
     def zoom_in(self, delta):
@@ -33,8 +39,8 @@ class CameraHandler:
 
     def convert_pos(self, pos):
         return [
-            pos[0] * self.zoom + self.resolution[0]/2 - self.camera_pos[0],
-            pos[1] * self.zoom + self.resolution[1]/2 - self.camera_pos[1]
+            pos[0] * self.zoom + self.resolution[0] / 2 - self.camera_pos[0],
+            pos[1] * self.zoom + self.resolution[1] / 2 - self.camera_pos[1]
         ]
         # was
         # return [
@@ -60,7 +66,7 @@ class Simulation(Thread):
         self.stop = True
         pygame.quit()
 
-    def __init__(self, bodies=None, resolution=(1280, 720)):
+    def __init__(self, bodies=None, resolution=(720, 480)):
         super().__init__()
 
         if bodies is None:
@@ -77,6 +83,9 @@ class Simulation(Thread):
 
         self.resolution = resolution
 
+        self.play = False
+        self.stop = False
+
     def display_body(self, body, label=''):
         self.body_label = self.labelFont.render(label, True, BLUE)
         body_diameter = self.camera_handler.convert_radius(body.radius) * 2
@@ -85,7 +94,7 @@ class Simulation(Thread):
         self.body_labelRect.center = (body_pos[0] + body_diameter / 2 + 10, body_pos[1] + body_diameter / 2 + 10)
 
         self.screen.blit(self.body_label, self.body_labelRect)
-        tmp_rect = pygame.Rect(body_pos[0], body_pos[1], body_diameter, body_diameter)
+        tmp_rect = pygame.Rect(body_pos[0]+(body_diameter/2), body_pos[1]+(body_diameter/2), body_diameter, body_diameter)
         pygame.draw.circle(self.screen, body.color, (tmp_rect.x, tmp_rect.y), int(tmp_rect.width / 2))
 
     def run(self):
@@ -100,9 +109,18 @@ class Simulation(Thread):
         self.body_labelRect = self.body_label.get_rect()
 
         self.camera_handler = CameraHandler(self.resolution)
+
+        main_button = buttons.MainButton(
+            (0, self.resolution[1] - BUTTON_SIZE), [
+                buttons.PlayPauseButton((0, self.resolution[1] - BUTTON_SIZE * 2), self, (BUTTON_SIZE, BUTTON_SIZE)),
+                buttons.ZoomOutButton((0, self.resolution[1] - BUTTON_SIZE * 3), self.camera_handler, (BUTTON_SIZE, BUTTON_SIZE)),
+                buttons.ZoomInButton((0, self.resolution[1] - BUTTON_SIZE * 4), self.camera_handler, (BUTTON_SIZE, BUTTON_SIZE)),
+                buttons.HomeButton((0, self.resolution[1] - BUTTON_SIZE * 5), self.camera_handler, (BUTTON_SIZE, BUTTON_SIZE))
+            ], (BUTTON_SIZE, BUTTON_SIZE)
+        )
+
         move_camera = False
         display_debug_screen = False
-
 
         fps_clock = pygame.time.Clock()
 
@@ -145,6 +163,8 @@ class Simulation(Thread):
                         display_debug_screen = False
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        main_button.check_hold(event.pos)
                     if event.button == 3:
                         move_camera = True
                     if event.button == 4:
@@ -154,24 +174,30 @@ class Simulation(Thread):
 
                 if event.type == pygame.MOUSEBUTTONUP:
                     move_camera = False
+                    main_button.check_release()
 
                 if event.type == pygame.MOUSEMOTION:
                     if move_camera:
                         self.camera_handler.move_camera(-event.rel[0], -event.rel[1])
 
             if self.play:
-                for key_a, body_a in enumerate(bodies):
+                for body_a in bodies:
                     pos_a = body_a.pos
                     m_a = body_a.m
                     fx_total = 0
                     fy_total = 0
 
-                    for key_b, body_b in enumerate(bodies):
-                        if body_b.pos == pos_a:
+                    for body_b in bodies:
+                        if body_a.pos == body_b.pos:
                             continue
                         if physic.check_collision(body_a, body_b):
-                            bodies[key_a] = physic.merge_bodies(body_a, body_b)
-                            del bodies[key_b]
+                            bodies_set = set(bodies)
+                            bodies_set.add(physic.merge_bodies(body_a, body_b))
+
+                            bodies_set.discard(body_a)
+                            bodies_set.discard(body_b)
+
+                            bodies = list(bodies_set)
                             continue
 
                         fx, fy = physic.calculate_forces(pos_a, body_b.pos, m_a, body_b.m)
@@ -199,7 +225,6 @@ class Simulation(Thread):
                     self.display_body(body_a, label_text)
             else:
                 for body_a in bodies:
-
                     # no body movement
 
                     # LABEL DEFINITION
@@ -218,6 +243,8 @@ class Simulation(Thread):
                 debug_screen_labelRect.x = 5
                 debug_screen_labelRect.y = 5
                 self.screen.blit(debug_screen_label, debug_screen_labelRect)
+
+            main_button.update(self.screen)
 
             pygame.display.flip()
             fps_clock.tick()
