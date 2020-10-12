@@ -19,6 +19,3 @@ Note : if you don't have the `pygame` library, type `pip3 install pygame` on Lin
 © 2020 anatom3000
 
 This project is under the GPL-3.0-or-later license (see LICENCE.md). 
-
-
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fanatom3000%2FGravit.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fanatom3000%2FGravit?ref=badge_large)
