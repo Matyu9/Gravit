@@ -1,5 +1,6 @@
 # Gravit
-### Actully a gravity sandbox. Please enjoy this :)
+### A gravity sandbox. Please enjoy this :)
+Last update : I'm archiving this mess of spaghetti code, sorry. 
 
 [![Discord](https://img.shields.io/discord/657510572119687169?color=green&label=Join%20our%20Discord%20server&logoColor=blue)](https://discord.gg/acXgbHf)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fanatom3000%2FGravit.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fanatom3000%2FGravit?ref=badge_shield)
